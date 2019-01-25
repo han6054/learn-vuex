@@ -58,6 +58,19 @@
                     </div>
                 `
        })
+
+       async function test() {
+          console.log('run in test 01')
+          await store.dispatch('incrementAsync')
+          console.log('run in test 02')
+
+          await store.dispatch('incrementAsync')
+          console.log('run in test 03')
+
+          store.commit('increment')
+          console.log('run in test 04')
+       }
+       test()
     </script>
 </body>
 
