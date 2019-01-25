@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vuex中的state</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.1.0/dist/vuex.js"></script>
+    <div id="app">
+        <Counter></Counter>
+    </div>
+</head>
+
+<body>
+</body>
+<script>
+    const Counter = {
+        data() {
+           return {
+               start: 5
+           } 
+        },
+        template: `<div>{{sayHi}} {{ total }} {{ count }} {{ message }}</div>`,
+        // computed: {
+        //     count() {
+        //         return this.$store.state.count
+        //     }
+        // }
+
+        // computed: Vuex.mapState(["count", "message"])
+
+          computed: {
+            sayHi() { return 'Hi' },    
+            ...Vuex.mapState({
+            title: 'count', // 变量重命名 
+            count: state => state.count,
+            message: state => state.message,
+            total: function(state) {
+                return this.start + state.count
+            }
+          })
+        }
+    }
+    const store = new Vuex.Store({
+        state: {
+            count: 10,
+            message: 'hello message!'
+        },
+        mutations: {
+            increment(state) {
+                state.count++;
+            }
+        }
+    })
+    const app = new Vue({
+        el: '#app',
+        store,
+        components: {
+            Counter
+        }
+    })
+</script>
+
+</html>
